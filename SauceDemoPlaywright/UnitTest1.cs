@@ -9,11 +9,13 @@ namespace SauceDemoPlaywright;
 public class ExampleTest : PageTest
 {
     private LoginPage _loginPage;
+    private IPage _page;
 
     [SetUp]
     public async Task Setup()
     {
-
+        _page = await Browser.NewPageAsync();
+        _loginPage = new LoginPage(_page);
     }
 
     [Test]
@@ -40,8 +42,16 @@ public class ExampleTest : PageTest
     [Test]
     public async Task HasHeading()
     {
-        await Page.GotoAsync("https://www.saucedemo.com/");
+        await _loginPage.GotoAsync();
 
-        await Expect(Page.GetByText("Swag Labs")).ToBeVisibleAsync();
+        await Expect(_loginPage.MainHeading).ToBeVisibleAsync();
+    }
+
+    [Test]
+    public async Task CanLogin()
+    {
+        await _loginPage.LoginAs("standard_user");
+
+        await Expect(_page).ToHaveURLAsync("https://www.saucedemo.com/inventory.html");
     }
 }

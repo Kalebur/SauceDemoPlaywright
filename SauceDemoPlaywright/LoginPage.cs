@@ -5,15 +5,31 @@ namespace SauceDemoPlaywright
 {
     public class LoginPage
     {
+        public readonly string Url = "https://www.saucedemo.com/";
         private readonly IPage _page;
+        public ILocator MainHeading { get; set; }
+        public ILocator UsernameTextbox => _page.Locator("#user-name");
+        public ILocator PasswordTextbox => _page.Locator("#password");
+        public ILocator LoginButton => _page.Locator("#login-button");
 
         public LoginPage(IPage page)
         {
             _page = page;
-            _mainHeading = page.Locator("text=Swag Labs");
+            MainHeading = _page.Locator("text=Swag Labs");
         }
-        public string Url = "https://www.saucedemo.com/";
 
-        private readonly ILocator _mainHeading;
+
+        public async Task GotoAsync()
+        {
+            await _page.GotoAsync(Url);
+        }
+
+        public async Task LoginAs(string username)
+        {
+            await GotoAsync();
+            await UsernameTextbox.FillAsync(username);
+            await PasswordTextbox.FillAsync("secret_sauce");
+            await LoginButton.ClickAsync();
+        }
     }
 }
