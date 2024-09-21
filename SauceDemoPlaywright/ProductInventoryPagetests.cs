@@ -31,9 +31,16 @@ namespace SauceDemoPlaywright
         [Test]
         public async Task HasHamburgerMenu()
         {
-            await _loginPage.LoginAs("standard_user");
-
             await Expect(_productInventoryPage.HamburgerMenu).ToBeVisibleAsync();
+        }
+
+        [Test]
+        public async Task CanLogoutFromProductPage()
+        {
+            await _productInventoryPage.HamburgerMenu.ClickAsync();
+            await _productInventoryPage.LogoutLink.ClickAsync();
+
+            await Expect(_page).ToHaveURLAsync(_loginPage.Url);
         }
     }
 }
