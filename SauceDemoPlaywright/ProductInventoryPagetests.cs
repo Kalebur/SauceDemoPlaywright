@@ -27,5 +27,13 @@ namespace SauceDemoPlaywright
 
             await Expect(items).ToHaveCountAsync(6);
         }
+
+        [Test]
+        public async Task HasHamburgerMenu()
+        {
+            await _loginPage.LoginAs("standard_user");
+
+            await Expect(_productInventoryPage.HamburgerMenu).ToBeVisibleAsync();
+        }
     }
 }
