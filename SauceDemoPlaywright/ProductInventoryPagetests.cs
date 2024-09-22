@@ -59,5 +59,13 @@ namespace SauceDemoPlaywright
                 }
             }
         }
+
+        [Test]
+        public async Task ProductsAllHaveImages()
+        {
+            var inventoryImages = _productInventoryPage.InventoryItems.Locator("img");
+
+            await Expect(inventoryImages).ToHaveCountAsync(6);
+        }
     }
 }
