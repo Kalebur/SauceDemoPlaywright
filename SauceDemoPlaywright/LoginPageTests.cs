@@ -42,4 +42,12 @@ public class LoginPageTests : PageTest
 
         await Expect(_loginPage.LoginErrorMessage).ToHaveTextAsync(new Regex("user has been locked out"));
     }
+
+    [Test]
+    public async Task DisplaysError_WhenInvalidUsernameOrPasswordAreEntered()
+    {
+        await _sauceDemoHelpers.LoginAs("meow_mix759");
+
+        await Expect(_loginPage.LoginErrorMessage).ToHaveTextAsync(new Regex("Username and password do not match any user in this service"));
+    }
 }
