@@ -11,6 +11,7 @@ namespace SauceDemoPlaywright
         public ILocator UsernameTextbox => _page.Locator("#user-name");
         public ILocator PasswordTextbox => _page.Locator("#password");
         public ILocator LoginButton => _page.Locator("#login-button");
+        public ILocator LoginErrorMessage => _page.Locator(".error-message-container.error");
 
         public LoginPage(IPage page)
         {

@@ -7,6 +7,7 @@ namespace SauceDemoPlaywright
         private readonly IPage _page;
         private readonly LoginPage _loginPage;
         private readonly ProductInventoryPage _productInventoryPage;
+        private BrowserContextCookiesResult? _sessionCookie = null;
 
         public SauceDemoHelpers(IPage page, LoginPage loginPage, ProductInventoryPage productInventoryPage)
         {
@@ -21,6 +22,12 @@ namespace SauceDemoPlaywright
             await _loginPage.UsernameTextbox.FillAsync(username);
             await _loginPage.PasswordTextbox.FillAsync("secret_sauce");
             await _loginPage.LoginButton.ClickAsync();
+        }
+
+        public async Task Logout()
+        {
+            await _productInventoryPage.HamburgerMenuOpenButton.ClickAsync();
+            await _productInventoryPage.LogoutLink.ClickAsync();
         }
     }
 }

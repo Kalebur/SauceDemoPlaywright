@@ -6,7 +6,7 @@ namespace SauceDemoPlaywright;
 
 [Parallelizable(ParallelScope.Self)]
 [TestFixture]
-public class ExampleTest : PageTest
+public class LoginPageTests : PageTest
 {
     private LoginPage _loginPage;
     private IPage _page;
@@ -33,5 +33,13 @@ public class ExampleTest : PageTest
     {
         await _sauceDemoHelpers.LoginAs("standard_user");
         await Expect(_page).ToHaveURLAsync("https://www.saucedemo.com/inventory.html");
+    }
+
+    [Test]
+    public async Task DisplaysErrorWhenUserIsLockedOut()
+    {
+        await _sauceDemoHelpers.LoginAs("locked_out_user");
+
+        await Expect(_loginPage.LoginErrorMessage).ToHaveTextAsync(new Regex("user has been locked out"));
     }
 }

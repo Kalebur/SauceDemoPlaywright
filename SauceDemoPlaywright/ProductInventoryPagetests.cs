@@ -25,8 +25,6 @@ namespace SauceDemoPlaywright
         [Test]
         public async Task HasAtLeastOneInventoryItemOnPage()
         {
-            
-
             await Expect(_productInventoryPage.InventoryItems).ToHaveCountAsync(6);
         }
 
@@ -39,8 +37,7 @@ namespace SauceDemoPlaywright
         [Test]
         public async Task CanLogoutFromProductPage()
         {
-            await _productInventoryPage.HamburgerMenuOpenButton.ClickAsync();
-            await _productInventoryPage.LogoutLink.ClickAsync();
+            await _sauceDemoHelpers.Logout();
 
             await Expect(_page).ToHaveURLAsync(_loginPage.Url);
         }
