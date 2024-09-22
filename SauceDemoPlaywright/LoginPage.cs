@@ -23,13 +23,5 @@ namespace SauceDemoPlaywright
         {
             await _page.GotoAsync(Url);
         }
-
-        public async Task LoginAs(string username)
-        {
-            await GotoAsync();
-            await UsernameTextbox.FillAsync(username);
-            await PasswordTextbox.FillAsync("secret_sauce");
-            await LoginButton.ClickAsync();
-        }
     }
 }

@@ -10,33 +10,14 @@ public class ExampleTest : PageTest
 {
     private LoginPage _loginPage;
     private IPage _page;
+    private SauceDemoHelpers _sauceDemoHelpers;
 
     [SetUp]
     public async Task Setup()
     {
         _page = await Browser.NewPageAsync();
         _loginPage = new LoginPage(_page);
-    }
-
-    [Test]
-    public async Task HasTitle()
-    {
-        await Page.GotoAsync("https://playwright.dev");
-
-        // Expect a title "to contain" a substring.
-        await Expect(Page).ToHaveTitleAsync(new Regex("Playwright"));
-    }
-
-    [Test]
-    public async Task GetStartedLink()
-    {
-        await Page.GotoAsync("https://playwright.dev");
-
-        // Click the get started link.
-        await Page.GetByRole(AriaRole.Link, new() { Name = "Get started" }).ClickAsync();
-
-        // Expects page to have a heading with the name of Installation.
-        await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Installation" })).ToBeVisibleAsync();
+        _sauceDemoHelpers = new SauceDemoHelpers(_page, _loginPage, new ProductInventoryPage(_page));
     }
 
     [Test]
@@ -50,8 +31,7 @@ public class ExampleTest : PageTest
     [Test]
     public async Task CanLogin()
     {
-        await _loginPage.LoginAs("standard_user");
-
+        await _sauceDemoHelpers.LoginAs("standard_user");
         await Expect(_page).ToHaveURLAsync("https://www.saucedemo.com/inventory.html");
     }
 }
