@@ -67,5 +67,14 @@ namespace SauceDemoPlaywright
 
             await Expect(inventoryImages).ToHaveCountAsync(6);
         }
+
+        [Test]
+        public async Task ProductsAllHaveAddToCartButtons()
+        {
+            var addToCartButtons = _productInventoryPage.InventoryItems.Locator("button").GetByText("Add to cart");
+            var expectedButtonCount = await _productInventoryPage.InventoryItems.CountAsync();
+
+            await Expect(addToCartButtons).ToHaveCountAsync(expectedButtonCount);
+        }
     }
 }
