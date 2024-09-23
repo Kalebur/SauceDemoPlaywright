@@ -72,9 +72,29 @@ namespace SauceDemoPlaywright
         public async Task ProductsAllHaveAddToCartButtons()
         {
             var addToCartButtons = _productInventoryPage.InventoryItems.Locator("button").GetByText("Add to cart");
-            var expectedButtonCount = await _productInventoryPage.InventoryItems.CountAsync();
+            var expectedButtonCount = 6;
 
             await Expect(addToCartButtons).ToHaveCountAsync(expectedButtonCount);
+        }
+
+        [Test]
+        public async Task ProductsAllHaveAPriceListed()
+        {
+            int validPrices = 0;
+            var itemCount = _productInventoryPage.InventoryItems.AllAsync().Result.Count;
+            var prices = await _productInventoryPage.InventoryItems.Locator(".inventory_item_price").AllAsync();
+            foreach (var price in prices)
+            {
+                var priceText = await price.InnerTextAsync();
+                var priceDecimal = string.Join("", priceText.Skip(1));
+
+                if (decimal.TryParse(priceDecimal, out _))
+                {
+                    validPrices++;
+                }
+            }
+
+            Assert.That(validPrices, Is.EqualTo(itemCount));
         }
     }
 }
