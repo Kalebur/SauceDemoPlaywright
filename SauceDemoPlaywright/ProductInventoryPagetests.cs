@@ -110,5 +110,20 @@ namespace SauceDemoPlaywright
                 Assert.That(buttonText, Is.EqualTo("Remove"));
             }
         }
+
+        [Test]
+        public async Task ClickingAddToCartIncreasesCartItemCountByOne()
+        {
+            var itemCount = await _productInventoryPage.InventoryItems.CountAsync();
+            var cartButtons = await _productInventoryPage.InventoryItems.Locator("button").AllAsync();
+
+            foreach (var cartButton in cartButtons)
+            {
+                await cartButton.ClickAsync();
+            }
+            var cartItemCount = await _productInventoryPage.ShoppingCartBadge.TextContentAsync();
+            
+            Assert.That(cartItemCount, Is.EqualTo(itemCount.ToString()));
+        }
     }
 }
