@@ -96,5 +96,19 @@ namespace SauceDemoPlaywright
 
             Assert.That(validPrices, Is.EqualTo(itemCount));
         }
+
+        [Test]
+        public async Task ClickingAddToCartChangesTextToRemove()
+        {
+            var cartButtons = await _productInventoryPage.InventoryItems.Locator("button").AllAsync();
+
+            foreach (var cartButton in cartButtons)
+            {
+                await cartButton.ClickAsync();
+                var buttonText = await cartButton.TextContentAsync();
+
+                Assert.That(buttonText, Is.EqualTo("Remove"));
+            }
+        }
     }
 }
