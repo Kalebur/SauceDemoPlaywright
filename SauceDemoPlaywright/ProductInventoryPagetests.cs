@@ -125,5 +125,17 @@ namespace SauceDemoPlaywright
             
             Assert.That(cartItemCount, Is.EqualTo(itemCount.ToString()));
         }
+
+        [Test]
+        public async Task ClickingAProductTitleTakesUserToItsDetailsPage()
+        {
+            var firstProductTitle = _productInventoryPage.InventoryItems.First.Locator(".inventory_item_name");
+            var productName = await firstProductTitle.TextContentAsync();
+
+            await firstProductTitle.ClickAsync();
+            var itemName = _page.Locator(".inventory_details_name");
+
+            await Expect(itemName).ToHaveTextAsync(productName);
+        }
     }
 }
